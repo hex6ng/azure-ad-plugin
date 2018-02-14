@@ -41,18 +41,12 @@ import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.Header;
-import org.kohsuke.stapler.HttpRedirect;
-import org.kohsuke.stapler.HttpResponse;
-import org.kohsuke.stapler.HttpResponses;
-import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.*;
 import org.springframework.dao.DataAccessException;
 
 import javax.servlet.FilterChain;
@@ -60,7 +54,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -239,9 +232,9 @@ public class AzureSecurityRealm extends SecurityRealm {
             throw new IllegalStateException("Invalid nonce in the response");
         }
         final AzureAdUser userDetails = AzureAdUser.createFromJwt(claims);
-        final Collection<String> groups = AzureCachePool.get(getAzureClient())
-                .getBelongingGroupsByOid(userDetails.getObjectID());
-        userDetails.setAuthorities(groups);
+//        final Collection<String> groups = AzureCachePool.get(getAzureClient())
+//                .getBelongingGroupsByOid(userDetails.getObjectID());
+//        userDetails.setAuthorities(groups);
         return userDetails;
     }
 
